@@ -208,30 +208,57 @@ function handleDomainInputKeyPress(event) {
 }
 
 async function addDomain() {
-  const input = document.getElementById('domainInput');
-  if (!input) {
-    console.error('❌ 找不到域名输入框元素');
-    alert('系统错误：找不到输入框');
-    return;
-  }
-  
-  const domain = input.value ? input.value.trim() : '';
-  if (!domain) {
-    alert('请输入域名');
-    return;
-  }
-  
   try {
+    console.log('🔍 开始添加域名...');
+    
+    // 等待 DOM 完全加载
+    if (document.readyState !== 'complete') {
+      console.warn('⚠️ DOM 未完全加载，等待中...');
+      await new Promise(resolve => {
+        if (document.readyState === 'complete') {
+          resolve();
+        } else {
+          window.addEventListener('load', resolve, { once: true });
+        }
+      });
+    }
+    
+    const input = document.getElementById('domainInput');
+    console.log('🔍 输入框元素:', input);
+    
+    if (!input) {
+      console.error('❌ 找不到域名输入框元素 (ID: domainInput)');
+      console.error('📋 当前 DOM 状态:', document.readyState);
+      console.error('📋 body 存在:', !!document.body);
+      alert('系统错误：找不到输入框\n请刷新页面后重试');
+      return;
+    }
+    
+    const domain = input.value ? input.value.trim() : '';
+    console.log('🔍 输入的域名:', domain);
+    
+    if (!domain) {
+      alert('请输入域名');
+      input.focus();
+      return;
+    }
+    
+    console.log('📤 正在添加域名:', domain);
     const result = await DomainManager.addDomain(domain);
+    console.log('📥 添加结果:', result);
+    
     if (result.success) {
       input.value = '';
       input.focus();
+      console.log('✅ 域名添加成功');
     } else {
       alert(result.message || '添加域名失败');
+      console.error('❌ 添加失败:', result.message);
     }
   } catch (error) {
     console.error('❌ 添加域名时发生错误:', error);
-    alert('发生错误: ' + error.message);
+    console.error('错误堆栈:', error.stack);
+    alert('发生错误: ' + error.message + '\n请查看控制台了解详情');
   }
 }
 

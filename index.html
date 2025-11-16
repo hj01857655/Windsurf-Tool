@@ -2033,6 +2033,10 @@
           <i data-lucide="book-open" class="nav-item-icon"></i>
           <span>使用教程</span>
         </button>
+        <button class="nav-item" onclick="switchView('sponsor')">
+          <i data-lucide="heart" class="nav-item-icon"></i>
+          <span>赞助支持</span>
+        </button>
       </nav>
 
       <div class="sidebar-footer">
@@ -2531,6 +2535,123 @@
           </button>
         </div>
 
+        <!-- 赞助支持视图 -->
+        <div id="sponsor" class="view-content">
+          <div class="settings-container">
+            <!-- 赞助说明卡片 -->
+            <div class="settings-card" style="background: linear-gradient(135deg, #fff9e6 0%, #fff4d6 100%); border: 2px solid #ffe4a3;">
+              <div class="settings-card-header" style="border-bottom: 1px solid #ffe4a3;">
+                <i data-lucide="coffee" style="width: 20px; height: 20px; color: #ff9500;"></i>
+                <h3 style="color: #1d1d1f;">感谢您的支持</h3>
+              </div>
+              <div class="settings-card-body">
+                <div style="text-align: center; margin-bottom: 32px;">
+                  <p style="font-size: 15px; color: #1d1d1f; line-height: 1.8; margin: 0 auto; max-width: 700px; font-weight: 500;">
+                    本工具完全<strong style="color: #ff3b30;">免费开源</strong>，致力于为用户提供便捷的 Windsurf 账号管理服务。
+                  </p>
+                  <p style="font-size: 14px; color: #6e6e73; line-height: 1.8; margin: 16px auto 0; max-width: 700px;">
+                    但服务器运营、CDN 加速、API 中转等都需要持续投入成本。如果这个工具对您有帮助，欢迎<strong style="color: #ff3b30;">赞助支持</strong>，您的每一份支持都是我们持续更新和维护的动力！
+                  </p>
+                </div>
+
+                <!-- 收款码展示 -->
+                <div style="display: flex; justify-content: center; gap: 48px; flex-wrap: wrap; margin: 40px 0;">
+                  <!-- 支付宝 -->
+                  <div style="text-align: center;">
+                    <div style="background: white; padding: 20px; border-radius: 16px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); display: inline-block; transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
+                      <img src="pay/IMG_4543.jpeg" alt="支付宝收款码" style="width: 240px; height: 240px; border-radius: 12px; display: block;">
+                    </div>
+                    <div style="margin-top: 16px; font-size: 16px; font-weight: 600; color: #1d1d1f; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                      <i data-lucide="smartphone" style="width: 18px; height: 18px; color: #1677ff;"></i>
+                      支付宝
+                    </div>
+                    <div style="margin-top: 4px; font-size: 12px; color: #86868b;">
+                      扫码支持开发
+                    </div>
+                  </div>
+
+                  <!-- QQ -->
+                  <div style="text-align: center;">
+                    <div style="background: white; padding: 20px; border-radius: 16px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); display: inline-block; transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-8px)'" onmouseout="this.style.transform='translateY(0)'">
+                      <img src="pay/IMG_4701.jpeg" alt="QQ收款码" style="width: 240px; height: 240px; border-radius: 12px; display: block;">
+                    </div>
+                    <div style="margin-top: 16px; font-size: 16px; font-weight: 600; color: #1d1d1f; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                      <i data-lucide="message-circle" style="width: 18px; height: 18px; color: #12b7f5;"></i>
+                      QQ
+                    </div>
+                    <div style="margin-top: 4px; font-size: 12px; color: #86868b;">
+                      扫码支持开发
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 感谢语 -->
+                <div style="text-align: center; padding: 20px; background: rgba(255, 255, 255, 0.7); border-radius: 12px; border: 2px dashed #ffe4a3; margin: 32px 0;">
+                  <p style="font-size: 14px; color: #1d1d1f; margin: 0; line-height: 1.8; font-weight: 500;">
+                    <i data-lucide="sparkles" style="width: 16px; height: 16px; color: #ff9500; display: inline-block; vertical-align: middle; margin-right: 6px;"></i>
+                    <strong style="color: #ff3b30; font-size: 15px;">感谢每一位赞助者！</strong>
+                  </p>
+                  <p style="font-size: 13px; color: #6e6e73; margin: 8px 0 0; line-height: 1.6;">
+                    您的支持让我们有动力持续优化和更新
+                    <i data-lucide="heart" style="width: 14px; height: 14px; color: #ff3b30; display: inline-block; vertical-align: middle; margin-left: 4px;"></i>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 运营成本说明 -->
+            <div class="settings-card">
+              <div class="settings-card-header">
+                <i data-lucide="info" style="width: 20px; height: 20px; color: #007aff;"></i>
+                <h3>运营成本说明</h3>
+              </div>
+              <div class="settings-card-body">
+                <div style="display: grid; gap: 16px;">
+                  <div style="padding: 16px; background: #f0f8ff; border-radius: 10px; border-left: 4px solid #007aff;">
+                    <div style="font-size: 14px; font-weight: 600; color: #1d1d1f; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                      <i data-lucide="server" style="width: 16px; height: 16px; color: #007aff;"></i>
+                      服务器托管费用
+                    </div>
+                    <div style="font-size: 13px; color: #6e6e73; line-height: 1.6;">
+                      API 中转服务、数据存储、版本管理等需要稳定的服务器支持
+                    </div>
+                  </div>
+
+                  <div style="padding: 16px; background: #f0fff4; border-radius: 10px; border-left: 4px solid: #34c759;">
+                    <div style="font-size: 14px; font-weight: 600; color: #1d1d1f; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                      <i data-lucide="zap" style="width: 16px; height: 16px; color: #34c759;"></i>
+                      CDN 加速费用
+                    </div>
+                    <div style="font-size: 13px; color: #6e6e73; line-height: 1.6;">
+                      提升国内访问速度，确保用户获得流畅的使用体验
+                    </div>
+                  </div>
+
+                  <div style="padding: 16px; background: #fff9e6; border-radius: 10px; border-left: 4px solid #ff9500;">
+                    <div style="font-size: 14px; font-weight: 600; color: #1d1d1f; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                      <i data-lucide="globe" style="width: 16px; height: 16px; color: #ff9500;"></i>
+                      域名和证书
+                    </div>
+                    <div style="font-size: 13px; color: #6e6e73; line-height: 1.6;">
+                      域名续费、SSL 证书等基础设施费用
+                    </div>
+                  </div>
+
+                  <div style="padding: 16px; background: #fff0f6; border-radius: 10px; border-left: 4px solid #ff3b30;">
+                    <div style="font-size: 14px; font-weight: 600; color: #1d1d1f; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                      <i data-lucide="code" style="width: 16px; height: 16px; color: #ff3b30;"></i>
+                      开发维护投入
+                    </div>
+                    <div style="font-size: 13px; color: #6e6e73; line-height: 1.6;">
+                      持续的功能开发、Bug 修复、用户支持等时间投入
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- 使用教程视图 -->
         <div id="tutorial" class="view-content">
           <div class="settings-container">
@@ -2881,61 +3002,6 @@
                 </div>
               </div>
             </div>
-            
-            <!-- 赞助支持 -->
-            <div class="settings-card" style="background: linear-gradient(135deg, #fff9e6 0%, #fff4d6 100%); border: 2px solid #ffe4a3;">
-              <div class="settings-card-header" style="border-bottom: 1px solid #ffe4a3;">
-                <i data-lucide="heart" style="width: 20px; height: 20px; color: #ff3b30;"></i>
-                <h3 style="color: #1d1d1f;">赞助支持</h3>
-              </div>
-              <div class="settings-card-body">
-                <div style="text-align: center; margin-bottom: 24px;">
-                  <div style="font-size: 15px; font-weight: 600; color: #1d1d1f; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                    <i data-lucide="coffee" style="width: 18px; height: 18px; color: #ff9500;"></i>
-                    感谢您的支持
-                  </div>
-                  <p style="font-size: 13px; color: #6e6e73; line-height: 1.8; margin: 0 auto; max-width: 600px;">
-                    本工具完全<strong style="color: #1d1d1f;">免费开源</strong>，但服务器运营、CDN 加速、API 中转等都需要持续投入成本。如果这个工具对您有帮助，欢迎<strong style="color: #ff3b30;">赞助支持</strong>，您的每一份支持都是我们持续更新和维护的动力！
-                  </p>
-                </div>
-                <div style="display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; margin-bottom: 20px;">
-                  <div style="text-align: center;">
-                    <div style="background: white; padding: 16px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); display: inline-block;">
-                      <img src="pay/IMG_4543.jpeg" alt="支付宝收款码" style="width: 200px; height: 200px; border-radius: 8px; display: block;">
-                    </div>
-                    <div style="margin-top: 12px; font-size: 14px; font-weight: 600; color: #1d1d1f; display: flex; align-items: center; justify-content: center; gap: 6px;">
-                      <i data-lucide="smartphone" style="width: 16px; height: 16px; color: #1677ff;"></i>
-                      支付宝
-                    </div>
-                  </div>
-                  <div style="text-align: center;">
-                    <div style="background: white; padding: 16px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); display: inline-block;">
-                      <img src="pay/IMG_4701.jpeg" alt="QQ收款码" style="width: 200px; height: 200px; border-radius: 8px; display: block;">
-                    </div>
-                    <div style="margin-top: 12px; font-size: 14px; font-weight: 600; color: #1d1d1f; display: flex; align-items: center; justify-content: center; gap: 6px;">
-                      <i data-lucide="message-circle" style="width: 16px; height: 16px; color: #12b7f5;"></i>
-                      QQ
-                    </div>
-                  </div>
-                </div>
-                <div style="text-align: center; padding: 16px; background: rgba(255, 255, 255, 0.6); border-radius: 10px; border: 1px dashed #ffe4a3;">
-                  <p style="font-size: 12px; color: #6e6e73; margin: 0; line-height: 1.6;">
-                    <i data-lucide="sparkles" style="width: 14px; height: 14px; color: #ff9500; display: inline-block; vertical-align: middle; margin-right: 4px;"></i>
-                    <strong style="color: #ff3b30;">感谢每一位赞助者！</strong>您的支持让我们有动力持续优化和更新
-                    <i data-lucide="heart" style="width: 14px; height: 14px; color: #ff3b30; display: inline-block; vertical-align: middle; margin-left: 4px;"></i>
-                  </p>
-                </div>
-                <div style="margin-top: 20px; padding: 12px; background: rgba(255, 255, 255, 0.4); border-radius: 8px; border-left: 3px solid #ff9500;">
-                  <div style="font-size: 12px; color: #6e6e73; line-height: 1.8;">
-                    <strong style="color: #1d1d1f;">💰 运营成本包括：</strong><br>
-                    • 服务器托管费用（API 中转服务）<br>
-                    • CDN 加速费用（提升国内访问速度）<br>
-                    • 域名续费和 SSL 证书<br>
-                    • 开发和维护时间投入
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -3255,7 +3321,8 @@
         virtualcard: { icon: 'credit-card', title: '虚拟卡管理', subtitle: '管理虚拟信用卡，自动绑定账号' },
         reset: { icon: 'rotate-ccw', title: '重置机器ID', subtitle: '重置 Windsurf 和 Cursor 的机器指纹信息' },
         settings: { icon: 'settings', title: '系统设置', subtitle: '配置邮箱域名和系统参数' },
-        tutorial: { icon: 'book-open', title: '使用教程', subtitle: '系统要求、快速开始和常见问题' }
+        tutorial: { icon: 'book-open', title: '使用教程', subtitle: '系统要求、快速开始和常见问题' },
+        sponsor: { icon: 'heart', title: '赞助支持', subtitle: '支持项目持续发展，感谢您的每一份支持' }
       };
       
       const viewInfo = titles[viewName];

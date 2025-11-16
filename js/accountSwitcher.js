@@ -64,8 +64,6 @@ class WindsurfPathDetector {
       return path.join(this.getAppDataDir(), 'Windsurf/User/globalStorage/state.vscdb');
     } else if (platform === 'darwin') {
       return path.join(this.getHomeDir(), 'Library/Application Support/Windsurf/User/globalStorage/state.vscdb');
-    } else if (platform === 'linux') {
-      return path.join(this.getHomeDir(), '.config/Windsurf/User/globalStorage/state.vscdb');
     }
     
     throw new Error(`不支持的平台: ${platform}`);
@@ -81,9 +79,9 @@ class WindsurfPathDetector {
       return path.join(this.getAppDataDir(), 'Windsurf');
     } else if (platform === 'darwin') {
       return path.join(this.getHomeDir(), 'Library/Application Support/Windsurf');
-    } else if (platform === 'linux') {
-      return path.join(this.getHomeDir(), '.config/Windsurf');
     }
+    
+    throw new Error(`不支持的平台: ${platform}`);
   }
   
   /**
@@ -147,13 +145,7 @@ class WindsurfPathDetector {
         console.log('[启动 Windsurf] macOS: 已启动');
         
       } else {
-        // Linux: 尝试从命令行启动
-        try {
-          await execAsync('windsurf &');
-          console.log('[启动 Windsurf] Linux: 已启动');
-        } catch (error) {
-          throw new Error('无法启动 Windsurf，请手动启动');
-        }
+        throw new Error('不支持的操作系统');
       }
       
       console.log('[启动 Windsurf] ✅ 启动成功');
@@ -186,12 +178,7 @@ class WindsurfPathDetector {
           return false;
         }
       } else {
-        try {
-          const { stdout } = await execAsync('pgrep -i windsurf');
-          return stdout.trim().length > 0;
-        } catch {
-          return false;
-        }
+        return false;
       }
     } catch {
       return false;
@@ -268,32 +255,6 @@ class WindsurfPathDetector {
             'pkill -9 -f "Windsurf.app/Contents/MacOS/Windsurf" 2>/dev/null || true',
             'pkill -9 -f "Windsurf Helper" 2>/dev/null || true',
             'killall -9 "Windsurf" 2>/dev/null || true'
-          ];
-          
-          for (const cmd of commands) {
-            try {
-              await execAsync(cmd);
-            } catch (error) {
-              // 忽略错误
-            }
-          }
-        }
-        
-      } else {
-        // Linux: 先 SIGTERM 再 SIGKILL
-        console.log('[关闭 Windsurf] Linux: 尝试优雅关闭...');
-        try {
-          await execAsync('pkill -15 windsurf 2>/dev/null');
-          await new Promise(resolve => setTimeout(resolve, 2000));
-        } catch (error) {
-          // 忽略错误
-        }
-        
-        if (await this.isRunning()) {
-          console.log('[关闭 Windsurf] Linux: 使用强制关闭...');
-          const commands = [
-            'pkill -9 -f "windsurf" 2>/dev/null || true',
-            'killall -9 windsurf 2>/dev/null || true'
           ];
           
           for (const cmd of commands) {

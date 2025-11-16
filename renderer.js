@@ -113,6 +113,213 @@ let isForceUpdateActive = false; // 是否有强制更新弹窗激活
 // 维护模式相关变量
 let isMaintenanceModeActive = false; // 是否处于维护模式
 
+// 赞助弹窗相关变量
+let sponsorPopupTimer = null;
+let lastSponsorPopupTime = 0;
+const SPONSOR_POPUP_INTERVAL = 10 * 60 * 1000; // 10分钟
+
+/**
+ * 显示赞助弹窗
+ */
+function showSponsorPopup() {
+  // 检查是否已经有弹窗
+  if (document.getElementById('sponsorPopupOverlay')) {
+    return;
+  }
+  
+  const now = Date.now();
+  // 如果距离上次弹窗不足10分钟，不弹出
+  if (now - lastSponsorPopupTime < SPONSOR_POPUP_INTERVAL) {
+    return;
+  }
+  
+  lastSponsorPopupTime = now;
+  
+  const popupHTML = `
+    <div id="sponsorPopupOverlay" style="
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999999;
+      animation: fadeIn 0.3s ease;
+    ">
+      <div style="
+        background: linear-gradient(135deg, #fff9e6 0%, #fff4d6 100%);
+        border-radius: 20px;
+        padding: 32px;
+        max-width: 500px;
+        width: 90%;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        border: 2px solid #ffe4a3;
+        animation: slideUp 0.4s ease;
+        position: relative;
+      " onclick="event.stopPropagation()">
+        <!-- 关闭按钮 -->
+        <button onclick="closeSponsorPopup()" style="
+          position: absolute;
+          top: 16px;
+          right: 16px;
+          background: rgba(0, 0, 0, 0.1);
+          border: none;
+          border-radius: 50%;
+          width: 32px;
+          height: 32px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.2s;
+        " onmouseover="this.style.background='rgba(0, 0, 0, 0.2)'" onmouseout="this.style.background='rgba(0, 0, 0, 0.1)'">
+          <i data-lucide="x" style="width: 18px; height: 18px; color: #1d1d1f;"></i>
+        </button>
+        
+        <!-- 标题 -->
+        <div style="text-align: center; margin-bottom: 24px;">
+          <div style="display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; background: linear-gradient(135deg, #ff9500, #ff3b30); border-radius: 50%; margin-bottom: 16px; box-shadow: 0 8px 16px rgba(255, 59, 48, 0.3);">
+            <i data-lucide="heart" style="width: 32px; height: 32px; color: white;"></i>
+          </div>
+          <h3 style="margin: 0; font-size: 22px; font-weight: 700; color: #1d1d1f;">支持我们持续更新</h3>
+        </div>
+        
+        <!-- 内容 -->
+        <div style="text-align: center; margin-bottom: 28px;">
+          <p style="font-size: 14px; color: #6e6e73; line-height: 1.8; margin: 0;">
+            本工具<strong style="color: #1d1d1f;">完全免费开源</strong>，但服务器、CDN、API 中转等运营成本持续投入。<br>
+            如果对您有帮助，欢迎<strong style="color: #ff3b30;">赞助支持</strong>！
+          </p>
+        </div>
+        
+        <!-- 按钮 -->
+        <div style="display: flex; gap: 12px;">
+          <button onclick="closeSponsorPopup()" style="
+            flex: 1;
+            padding: 12px 24px;
+            background: rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            color: #1d1d1f;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+          " onmouseover="this.style.background='rgba(0, 0, 0, 0.1)'" onmouseout="this.style.background='rgba(0, 0, 0, 0.05)'">
+            稍后再说
+          </button>
+          <button onclick="openSponsorPage()" style="
+            flex: 1;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #ff9500, #ff3b30);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(255, 59, 48, 0.3);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+          " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(255, 59, 48, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(255, 59, 48, 0.3)'">
+            <i data-lucide="heart" style="width: 16px; height: 16px;"></i>
+            去赞助
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <style>
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      @keyframes slideUp {
+        from { 
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to { 
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  `;
+  
+  document.body.insertAdjacentHTML('beforeend', popupHTML);
+  
+  // 初始化图标
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+}
+
+/**
+ * 关闭赞助弹窗
+ */
+function closeSponsorPopup() {
+  const overlay = document.getElementById('sponsorPopupOverlay');
+  if (overlay) {
+    overlay.style.animation = 'fadeOut 0.2s ease';
+    setTimeout(() => {
+      overlay.remove();
+    }, 200);
+  }
+}
+
+/**
+ * 打开赞助页面
+ */
+function openSponsorPage() {
+  closeSponsorPopup();
+  if (typeof switchView === 'function') {
+    switchView('sponsor');
+  }
+}
+
+/**
+ * 启动赞助弹窗定时器
+ */
+function startSponsorPopupTimer() {
+  // 首次启动时立即显示
+  setTimeout(() => {
+    showSponsorPopup();
+  }, 5000); // 5秒后首次弹出
+  
+  // 之后每10分钟弹一次
+  sponsorPopupTimer = setInterval(() => {
+    showSponsorPopup();
+  }, SPONSOR_POPUP_INTERVAL);
+}
+
+/**
+ * 停止赞助弹窗定时器
+ */
+function stopSponsorPopupTimer() {
+  if (sponsorPopupTimer) {
+    clearInterval(sponsorPopupTimer);
+    sponsorPopupTimer = null;
+  }
+}
+
+// 添加 fadeOut 动画
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+`;
+document.head.appendChild(style);
+
 // 全局错误捕获
 window.addEventListener('error', (event) => {
   console.error('全局错误:', event.error);
@@ -3494,6 +3701,8 @@ function initSettingsChangeListener() {
 if (typeof window !== 'undefined') {
   window.addEventListener('DOMContentLoaded', () => {
     initSettingsChangeListener();
+    // 启动赞助弹窗定时器
+    startSponsorPopupTimer();
   });
 }
 

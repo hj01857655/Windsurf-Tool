@@ -59,7 +59,7 @@
     "productName": "Windsurf-Tool",
     "copyright": "Copyright © 2024 crispvibe",
     "asar": false,
-    "compression": "normal",
+    "compression": "store",
     "buildDependenciesFromSource": false,
     "nodeGypRebuild": false,
     "directories": {
